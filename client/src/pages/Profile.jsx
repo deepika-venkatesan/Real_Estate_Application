@@ -26,11 +26,6 @@ export default function Profile() {
   const [formData, setFormData] = useState({});
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const dispatch = useDispatch();
-  // firebase storage
-  // allow read;
-  // allow write: if
-  // request.resource.size < 2 * 1024 * 1024 &&
-  // request.resource.contentType.matches('image/.*')
   useEffect(() => {
     if (file) {
       handleFileUpload(file);
@@ -83,7 +78,6 @@ export default function Profile() {
       dispatch(updateUserFailure(error.message));
     }
   };
-
   const handleDeleteUser = async () => {
     try {
       dispatch(deleteUserStart());
@@ -102,8 +96,9 @@ export default function Profile() {
   };
 
   const handleSignOut = async () => {
-    try{
-      dispatch(signOutUserStart());
+
+    try {
+      dispatch(signOutUserStart())
       const res = await fetch('/api/auth/signout');
       const data = await res.json();
       if (data.success === false) {
@@ -111,10 +106,8 @@ export default function Profile() {
         return;
       }
       dispatch(deleteUserSuccess(data));
-
-    }catch {
+    } catch (error) {
       dispatch(deleteUserFailure(data.message));
-      
     }
   }
   return (
@@ -184,7 +177,7 @@ export default function Profile() {
         >
           Delete account
         </span>
-        <span onClick ={handleSignOut} className='text-red-700 cursor-pointer'>Sign out</span>
+        <span onClick={handleSignOut} className='text-red-700 cursor-pointer'>Sign out</span>
       </div>
 
       <p className='text-red-700 mt-5'>{error ? error : ''}</p>
